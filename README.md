@@ -15,7 +15,7 @@
 
 ## Introduction
 
-This add-on will automatically run SQL-like files when initializing the DDEV database service for the first time. See [offical Queues documentation](https://laravel.com/docs/9.x/queues) for more details.
+This add-on will automatically load SQL-like files into the DDEV database container when starting a project with no database initialized. See [offical Queues documentation](https://laravel.com/docs/9.x/queues) for more details.
 
 This can be used to:
 
