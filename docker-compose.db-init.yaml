@@ -1,0 +1,7 @@
+#ddev-generated
+# Run SQL-like files when initializing the database
+version: '3.6'
+services:
+  db:
+    volumes:
+      - "./db-init:/docker-entrypoint-initdb.d"
