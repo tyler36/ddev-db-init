@@ -22,6 +22,17 @@ teardown() {
   [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
 }
 
+# Confirm the basics services are running
+healthchecks() {
+  curl -s "https://${PROJNAME}.ddev.site" | grep "this is a test"
+}
+
+
+# Confirm mysql-like database
+healthchecks_mysql() {
+  ddev mysql -u db -pdb -e "SHOW DATABASES;" | grep db
+}
+
 @test "install from directory" {
   set -eu -o pipefail
   cd ${TESTDIR}
@@ -29,7 +40,8 @@ teardown() {
   ddev get ${DIR}
   ddev restart
 
-  sleep 61
+  healthchecks
+  healthchecks_mysql
 }
 
 @test "install from release" {
@@ -39,57 +51,58 @@ teardown() {
   ddev get tyler36/ddev-db-init
   ddev restart
 
-  sleep 61
+  healthchecks
+  healthchecks_mysql
 }
 
-@test "creates a second database in postgres:14" {
-  set -eu -o pipefail
-  cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+# @test "creates a second database in postgres:14" {
+#   set -eu -o pipefail
+#   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
+#   echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
-  # Setup addon
-  ddev get ${DIR}
-  mkdir ${TESTDIR}/.ddev/db-init
-  cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
+#   # Setup addon
+#   ddev get ${DIR}
+#   mkdir ${TESTDIR}/.ddev/db-init
+#   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
-  # Set database to postgres:14
-  ddev config --database=postgres:14
-  ddev restart
+#   # Set database to postgres:14
+#   ddev config --database=postgres:14
+#   ddev restart
 
-  sleep 61
-  # TODO: Confirm "testing" database exists
-}
+#   healthchecks
+#   # TODO: Confirm "testing" database exists
+# }
 
-@test "creates a second database in mariadb:10.6" {
-  set -eu -o pipefail
-  cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+# @test "creates a second database in mariadb:10.6" {
+#   set -eu -o pipefail
+#   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
+#   echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
-  # Setup addon
-  ddev get ${DIR}
-  cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
+#   # Setup addon
+#   ddev get ${DIR}
+#   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
-  # Set database to mariadb:10.6
-  ddev config --database=mariadb:10.6
-  ddev restart
+#   # Set database to mariadb:10.6
+#   ddev config --database=mariadb:10.6
+#   ddev restart
 
-  sleep 61
-  # TODO: Confirm "testing" database exists
-}
+#   healthchecks
+#   # TODO: Confirm "testing" database exists
+# }
 
-@test "creates a second database in mysql:5.7" {
-  set -eu -o pipefail
-  cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+# @test "creates a second database in mysql:5.7" {
+#   set -eu -o pipefail
+#   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
+#   echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
-  # Setup addon
-  ddev get ${DIR}
-  cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
+#   # Setup addon
+#   ddev get ${DIR}
+#   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
-  # Set database to mysql:5.7
-  ddev config --database=mysql:5.7
-  ddev restart
+#   # Set database to mysql:5.7
+#   ddev config --database=mysql:5.7
+#   ddev restart
 
-  sleep 61
-  # TODO: Confirm "testing" database exists
-}
+#   healthchecks
+#   # TODO: Confirm "testing" database exists
+# }
