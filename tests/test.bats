@@ -22,6 +22,11 @@ teardown() {
   [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
 }
 
+# Confirm the basics services are running
+healthchecks() {
+  curl -s "https://${PROJNAME}.ddev.site" | grep "this is a test"
+}
+
 @test "install from directory" {
   set -eu -o pipefail
   cd ${TESTDIR}
@@ -29,6 +34,7 @@ teardown() {
   ddev get ${DIR}
   ddev restart
 
+  healthchecks
   # TODO: Confirm "testing" database exists
 }
 
@@ -39,6 +45,7 @@ teardown() {
   ddev get tyler36/ddev-db-init
   ddev restart
 
+  healthchecks
   # TODO: Confirm "testing" database exists
 }
 
