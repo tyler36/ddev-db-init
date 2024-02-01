@@ -55,23 +55,27 @@ healthchecks_mysql() {
   healthchecks_mysql
 }
 
-# @test "creates a second database in postgres:14" {
-#   set -eu -o pipefail
-#   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-#   echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+@test "creates a second database in postgres:14" {
+  set -eu -o pipefail
+  cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
+  echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
-#   # Setup addon
-#   ddev get ${DIR}
-#   mkdir ${TESTDIR}/.ddev/db-init
-#   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
+  # Setup addon
+  ddev get ${DIR}
+  mkdir -p ${TESTDIR}/.ddev/db-init
+  cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
-#   # Set database to postgres:14
-#   ddev config --database=postgres:14
-#   ddev restart
+  # Remove the "default" database before changing.
+  ddev delete -Oy
 
-#   healthchecks
-#   # TODO: Confirm "testing" database exists
-# }
+  # Set database to postgres:14
+  ddev config --database=postgres:14
+  ddev restart
+
+  healthchecks
+  # Check that the non-standard 'testing' database was created
+  ddev psql -l | grep 'testing'
+}
 
 # @test "creates a second database in mariadb:10.6" {
 #   set -eu -o pipefail
