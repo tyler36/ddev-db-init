@@ -27,6 +27,12 @@ healthchecks() {
   curl -s "https://${PROJNAME}.ddev.site" | grep "this is a test"
 }
 
+
+# Confirm mysql-like database
+healthchecks_mysql() {
+  ddev mysql -u db -pdb -e "SHOW DATABASES;" | grep db
+}
+
 @test "install from directory" {
   set -eu -o pipefail
   cd ${TESTDIR}
@@ -35,7 +41,7 @@ healthchecks() {
   ddev restart
 
   healthchecks
-  # TODO: Confirm "testing" database exists
+  healthchecks_mysql
 }
 
 @test "install from release" {
@@ -46,7 +52,7 @@ healthchecks() {
   ddev restart
 
   healthchecks
-  # TODO: Confirm "testing" database exists
+  healthchecks_mysql
 }
 
 # @test "creates a second database in postgres:14" {
