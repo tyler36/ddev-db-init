@@ -29,7 +29,7 @@ teardown() {
   ddev get ${DIR}
   ddev restart
 
-  sleep 61
+  # TODO: Confirm "testing" database exists
 }
 
 @test "install from release" {
@@ -39,7 +39,7 @@ teardown() {
   ddev get tyler36/ddev-db-init
   ddev restart
 
-  sleep 61
+  # TODO: Confirm "testing" database exists
 }
 
 @test "creates a second database in postgres:14" {
@@ -56,7 +56,6 @@ teardown() {
   ddev config --database=postgres:14
   ddev restart
 
-  sleep 61
   # TODO: Confirm "testing" database exists
 }
 
@@ -73,7 +72,6 @@ teardown() {
   ddev config --database=mariadb:10.6
   ddev restart
 
-  sleep 61
   # TODO: Confirm "testing" database exists
 }
 
@@ -90,6 +88,5 @@ teardown() {
   ddev config --database=mysql:5.7
   ddev restart
 
-  sleep 61
   # TODO: Confirm "testing" database exists
 }
