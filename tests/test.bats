@@ -36,8 +36,8 @@ healthchecks_mysql() {
 @test "install from directory" {
   set -eu -o pipefail
   cd ${TESTDIR}
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get ${DIR}
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get ${DIR}
   ddev restart
 
   healthchecks
@@ -47,8 +47,8 @@ healthchecks_mysql() {
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get tyler36/ddev-db-init
+  echo "# ddev add-on get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev add-on get tyler36/ddev-db-init
   ddev restart
 
   healthchecks
@@ -58,10 +58,10 @@ healthchecks_mysql() {
 @test "creates a second database in postgres:14" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  echo "# ddev add-on get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
   # Setup addon
-  ddev get ${DIR}
+  ddev add-on get ${DIR}
   mkdir -p ${TESTDIR}/.ddev/db-init
   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
@@ -80,10 +80,10 @@ healthchecks_mysql() {
 # @test "creates a second database in mariadb:10.6" {
 #   set -eu -o pipefail
 #   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-#   echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+#   echo "# ddev add-on get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
 #   # Setup addon
-#   ddev get ${DIR}
+#   ddev add-on get ${DIR}
 #   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
 #   # Set database to mariadb:10.6
@@ -97,10 +97,10 @@ healthchecks_mysql() {
 # @test "creates a second database in mysql:5.7" {
 #   set -eu -o pipefail
 #   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-#   echo "# ddev get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+#   echo "# ddev add-on get tyler36/ddev-db-init with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
 
 #   # Setup addon
-#   ddev get ${DIR}
+#   ddev add-on get ${DIR}
 #   cp ${DIR}/tests/testdata/create-database.sql  ${TESTDIR}/.ddev/db-init
 
 #   # Set database to mysql:5.7
