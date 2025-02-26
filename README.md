@@ -1,3 +1,16 @@
+
+> [!IMPORTANT]
+> Unable to get MySql and MariaDB to work correctly.
+> It is recommended to use hooks for consistency.
+>
+> ```yaml
+> #.ddev/config.db-init.yaml
+>
+> hooks:
+>   post-start:
+>     - exec-host: ddev mysql -uroot -proot -hdb < "${DDEV_APP_ROOT}/.ddev/db-init/*.sql"
+> ```
+
 # tyler36/ddev-db-init <!-- omit in toc -->
 
 [![tests](https://github.com/tyler36/ddev-db-init/actions/workflows/tests.yml/badge.svg)](https://github.com/tyler36/ddev-db-init/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2026.svg)
